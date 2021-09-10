@@ -67,6 +67,14 @@ function addPagination(list) {
     }
 
     document.querySelector("button").className = "active";
+
+    linkList.addEventListener("click", (event) => {
+        if (event.target.tagName === "BUTTON") {
+            linkList.querySelector("button[class=active]").className = "";
+            event.target.className = "active";
+            showPage(data, event.target.textContent);
+        }
+    });
 }
 
 
