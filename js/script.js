@@ -4,7 +4,6 @@ FSJS Project 2 - Data Pagination and Filtering
 */
 
 
-
 /*
 For assistance:
    Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
@@ -12,6 +11,28 @@ For assistance:
 */
 
 
+/*
+ */
+function performSearch(list) {
+    const header = document.querySelector(".header");
+    const searchBar = `
+      <label for="search" class="student-search">
+         <span>Search by name</span>
+         <input id="search" placeholder="Search by name...">
+         <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+      </label>
+    `;
+
+    header.insertAdjacentHTML("beforeend", searchBar);
+
+    const search = document.querySelector("#search");
+
+    for (let i = 0; i < list.length; i++) {
+        if (search.value.length !== 0 && list[i].textContent.toLowerCase() === search.value.toLowerCase()) {
+
+        }
+    }
+}
 
 /*
  * The `showPage` function creates and displays a page of nine students.
@@ -28,13 +49,14 @@ function showPage(list, page) {
     let endIndex = page * itemsPerPage;
     // Selecting student list (ul).
     let studentList = document.querySelector(".student-list");
+    let newList;
     // Removing any students previously displayed.
     studentList.innerHTML = "";
     // Iterating over the list parameter.
     for (let i = 0; i < list.length; i++) {
         // Checking indexes values to print the respective student's list item.
         if (i >= startIndex && i < endIndex) {
-            // Creating student´s list item and data.
+            // Creating student´s list item to log out into the DOM.
             let studentItem = `
                <li class="student-item cf">
                   <div class="student-details">
@@ -50,7 +72,12 @@ function showPage(list, page) {
             // Inserting student's list item to the DOM.
             studentList.insertAdjacentHTML("beforeend", studentItem);
         }
+
     }
+
+    //  let newList = studentList.querySelectorAll("li");
+
+    let newList = performSearch(list);
 }
 
 
@@ -97,5 +124,6 @@ function addPagination(list) {
 
 
 // Call functions
+// performSearch();
 showPage(data, 1);
 addPagination(data);
