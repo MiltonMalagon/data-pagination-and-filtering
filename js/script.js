@@ -10,28 +10,30 @@ For assistance:
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
-
 /*
  */
-function performSearch(list) {
+function performSearch(datalist) {
     const header = document.querySelector(".header");
     const searchBar = `
-      <label for="search" class="student-search">
-         <span>Search by name</span>
-         <input id="search" placeholder="Search by name...">
-         <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
-      </label>
-    `;
+          <label for="search" class="student-search">
+             <span>Search by name</span>
+             <input id="search" placeholder="Search by name...">
+             <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+          </label>
+        `;
 
     header.insertAdjacentHTML("beforeend", searchBar);
 
     const search = document.querySelector("#search");
+    const submit = document.querySelector(".student-search button");
 
-    for (let i = 0; i < list.length; i++) {
-        if (search.value.length !== 0 && list[i].textContent.toLowerCase() === search.value.toLowerCase()) {
-
+    search.addEventListener("keyup", () => {
+        for (let i = 0; i < datalist; i++) {
+            if (search.value.length !== 0 && search.value.toLowerCase() === datalist[i].name.first.includes(search.value)) {
+                return datalist[i];
+            }
         }
-    }
+    });
 }
 
 /*
@@ -49,7 +51,6 @@ function showPage(list, page) {
     let endIndex = page * itemsPerPage;
     // Selecting student list (ul).
     let studentList = document.querySelector(".student-list");
-    let newList;
     // Removing any students previously displayed.
     studentList.innerHTML = "";
     // Iterating over the list parameter.
@@ -72,25 +73,20 @@ function showPage(list, page) {
             // Inserting student's list item to the DOM.
             studentList.insertAdjacentHTML("beforeend", studentItem);
         }
-
     }
-
-    //  let newList = studentList.querySelectorAll("li");
-
-    let newList = performSearch(list);
 }
 
 
 /*
  * The `addPagination` function creates and inserts the pagination buttons.
  *
- * @param {array} list - The list with the students data.
+ * @param {array} datalist - The list with the students data.
  */
-function addPagination(list) {
+function addPagination(datalist) {
     // Number of items per page.
     const itemsPerPage = 9;
     // Number of pagination buttons needed.
-    let numOfPages = Math.ceil(list.length / itemsPerPage);
+    let numOfPages = Math.ceil(datalist.length / itemsPerPage);
     // Selecting the list that encloses all pagination buttons.
     let linkList = document.querySelector(".link-list");
     // Removing any pagination buttons previously displayed.
@@ -107,10 +103,10 @@ function addPagination(list) {
         linkList.insertAdjacentHTML("beforeend", button);
     }
     // Setting button class to "active".
-    document.querySelector("button").className = "active";
-    // Adding event listener to listen for clicks on the list of pagination buttons (links).
+    document.querySelector(".link-list button").className = "active";
+    // Adding event listener to listen to clicks on the list of pagination buttons (links).
     linkList.addEventListener("click", (event) => {
-        // Condition to listen for any pagination button.
+        // Condition to listen to any pagination button.
         if (event.target.tagName === "BUTTON") {
             // Removing class value to the first pagination button.
             linkList.querySelector("button[class=active]").className = "";
@@ -124,6 +120,7 @@ function addPagination(list) {
 
 
 // Call functions
-// performSearch();
+
+performSearch(data);
 showPage(data, 1);
 addPagination(data);
