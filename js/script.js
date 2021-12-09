@@ -12,7 +12,7 @@ For assistance:
 
 /*
  */
-function performSearch(datalist) {
+function performSearch(list) {
     const header = document.querySelector(".header");
     const searchBar = `
           <label for="search" class="student-search">
@@ -28,9 +28,9 @@ function performSearch(datalist) {
     const submit = document.querySelector(".student-search button");
 
     search.addEventListener("keyup", () => {
-        for (let i = 0; i < datalist; i++) {
-            if (search.value.length !== 0 && search.value.toLowerCase() === datalist[i].name.first.includes(search.value)) {
-                return datalist[i];
+        for (let i = 0; i < list; i++) {
+            if (search.value.length !== 0 && search.value.toLowerCase() === list[i].name.first.includes(search.value)) {
+                return list[i];
             }
         }
     });
@@ -80,13 +80,13 @@ function showPage(list, page) {
 /*
  * The `addPagination` function creates and inserts the pagination buttons.
  *
- * @param {array} datalist - The list with the students data.
+ * @param {array} list - The list with the students data.
  */
-function addPagination(datalist) {
+function addPagination(list) {
     // Number of items per page.
     const itemsPerPage = 9;
     // Number of pagination buttons needed.
-    let numOfPages = Math.ceil(datalist.length / itemsPerPage);
+    let numOfPages = Math.ceil(list.length / itemsPerPage);
     // Selecting the list that encloses all pagination buttons.
     let linkList = document.querySelector(".link-list");
     // Removing any pagination buttons previously displayed.
