@@ -113,7 +113,7 @@ function addPagination(list) {
             // Setting the class active to any pagination button clicked.
             event.target.className = "active";
             // Calling showPage function and passing the array and clicked element as arguments.
-            showPage(data, event.target.textContent);
+            showPage(list, event.target.textContent);
         }
     });
 }
