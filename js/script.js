@@ -11,9 +11,14 @@ For assistance:
 */
 
 /*
+ * The `addSearchBar` function dynamically creates and adds a search bar.
+ *
+ * @returns {string} - Template literal with the HTML input and search button (search bar).
  */
-function performSearch(list) {
+function addSearchBar() {
+    // Selecting the header HTML element. 
     const header = document.querySelector(".header");
+    // Creating search bar to add it into the DOM.
     const searchBar = `
           <label for="search" class="student-search">
              <span>Search by name</span>
@@ -21,16 +26,103 @@ function performSearch(list) {
              <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
           </label>
         `;
-
+    // Inserting search bar to the DOM.
     header.insertAdjacentHTML("beforeend", searchBar);
+}
 
+/*
+ * The `performSearch` function filters students data so that students that match the search value are shown.
+ *
+ * @param {array} list - The list with the students data.
+ * @returns {string} - Template literal with the HTML list items matched.
+ */
+function performSearch(list) {
+    // Storing search input and search button elements.
     const search = document.querySelector("#search");
     const submit = document.querySelector(".student-search button");
-
+    // Event listener performing searches in real-time when the user types a name.
     search.addEventListener("keyup", () => {
-        for (let i = 0; i < list; i++) {
-            if (search.value.length !== 0 && search.value.toLowerCase() === list[i].name.first.includes(search.value)) {
-                return list[i];
+        // Storing name matches to display on the DOM.
+        let newList = [];
+        // Iterating over the list parameter.
+        for (let i = 0; i < list.length; i++) {
+            // Storing each student object separately.
+            let student = list[i];
+            // Storing student's first and last names as one string literal.
+            let studentName = `${student.name.first.toLowerCase()}${student.name.last.toLowerCase()}`;
+            // Storing the input values searched byt the user.
+            let inputValue = search.value;
+            // Splitting input values to escape white spaces typed into the search bar.
+            let newArray = inputValue.split(" ");
+            // Joining the new array to create a single string with a name without spaces.
+            let newString = newArray.join("");
+            // Checking if input values match student names to print the respective student's data.
+            // If no matches are found it is display a “No results found” message.
+            if (studentName.includes(newString.toLowerCase())) {
+                // Pushing each student found into a new array.
+                newList.push(student);
+                // Creating and displaying students found.
+                showPage(newList, 1);
+                // Adding pagination based on the number of students found.
+                addPagination(newList);
+                // Checking if no matches are found so `newList` array doesn't have items to display.
+            } else if (newList.length === 0) {
+                // Storing the list (ul) containing all student items and pagination buttons.
+                let studentList = document.querySelector(".student-list");
+                let linkList = document.querySelector(".link-list");
+                // Creating list item element with the message “No results found”.
+                const message = `
+                    <li class="student-item cf">
+                        <h3>No resutls found</h3>
+                    </li>
+                `;
+                // Priting message if no matches are found.
+                studentList.innerHTML = message;
+                // Removing pagination buttons previously display.
+                linkList.innerHTML = "";
+            }
+        }
+    });
+
+    submit.addEventListener("click", () => {
+        // Storing name matches to display on the DOM.
+        let newList = [];
+        // Iterating over the list parameter.
+        for (let i = 0; i < list.length; i++) {
+            // Storing each student object separately.
+            let student = list[i];
+            // Storing student's first and last names as one string literal.
+            let studentName = `${student.name.first.toLowerCase()}${student.name.last.toLowerCase()}`;
+            // Storing the input values searched byt the user.
+            let inputValue = search.value;
+            // Splitting input values to escape white spaces typed into the search bar.
+            let newArray = inputValue.split(" ");
+            // Joining the new array to create a single string with a name without spaces.
+            let newString = newArray.join("");
+            // Checking if input values match student names to print the respective student's data.
+            // If no matches are found it is display a “No results found” message.
+            if (studentName.includes(newString.toLowerCase())) {
+                // Pushing each student found into a new array.
+                newList.push(student);
+                // Creating and displaying students found.
+                showPage(newList, 1);
+                // Adding pagination based on the number of students found.
+                addPagination(newList);
+                // Checking if no matches are found so `newList` array doesn't have items to display.
+            } else if (newList.length === 0) {
+                // Storing the list (ul) containing all student items and pagination buttons.
+                let studentList = document.querySelector(".student-list");
+                let linkList = document.querySelector(".link-list");
+                // Creating list item element with the message “No results found”.
+                const message = `
+                    <li class="student-item cf">
+                        <h3>No resutls found</h3>
+                    </li>
+                `;
+                // Priting message if no matches are found.
+                studentList.innerHTML = message;
+                // Removing pagination buttons previously display.
+                linkList.innerHTML = "";
             }
         }
     });
@@ -44,9 +136,9 @@ function performSearch(list) {
  * @returns {string} - Template literal with the HTML list item and contents.
  */
 function showPage(list, page) {
-    // Number of items per page.
+    // Declaring number of items per page.
     const itemsPerPage = 9;
-    // Vars to store the start and end indexes of the list items.
+    // Storing start and end indexes of the list items.
     let startIndex = (page * itemsPerPage) - itemsPerPage;
     let endIndex = page * itemsPerPage;
     // Selecting student list (ul).
@@ -83,9 +175,9 @@ function showPage(list, page) {
  * @param {array} list - The list with the students data.
  */
 function addPagination(list) {
-    // Number of items per page.
+    // Declaring number of items per page.
     const itemsPerPage = 9;
-    // Number of pagination buttons needed.
+    // Storing number of pagination buttons needed.
     let numOfPages = Math.ceil(list.length / itemsPerPage);
     // Selecting the list that encloses all pagination buttons.
     let linkList = document.querySelector(".link-list");
@@ -118,9 +210,8 @@ function addPagination(list) {
     });
 }
 
-
-// Call functions
-
+// Calling functions
+addSearchBar();
 performSearch(data);
 showPage(data, 1);
 addPagination(data);
