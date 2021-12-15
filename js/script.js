@@ -11,7 +11,7 @@ For assistance:
 */
 
 /*
- * The `addSearchBar` function dynamically creates and adds a search bar.
+ * The `addSearchBar` function creates and adds a search bar.
  *
  * @returns {string} - Template literal with the HTML input and search button (search bar).
  */
@@ -83,7 +83,7 @@ function performSearch(list) {
             }
         }
     });
-
+    // Event listener performing searches when the user clicks on the search button.
     submit.addEventListener("click", () => {
         // Storing name matches to display on the DOM.
         let newList = [];
